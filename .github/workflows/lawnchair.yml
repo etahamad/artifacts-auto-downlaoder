@@ -14,15 +14,12 @@ jobs:
         run: git clone --depth=1 https://github.com/LawnchairLauncher/lawnchair
       
       - name: Dowloading latest debug apk
-        run: gh run download $(gh run list -L 1 > id1.txt && awk '{print $12}' id1.txt)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Sending the app to telegram
         run: |
+          cd lawnchair
+          gh run download $(gh run list -L 1 > id1.txt && awk '{print $12}' id1.txt)
           cd "Debug APK"
           for f in *\ *; do mv "$f" "${f// /_}"; done
-          curl -F document=@$(ls -U *.apk) -F chat_id="$chat_id" "https://api.telegram.org/bot$token/sendDocument"
+          curl -F document=@$(ls -U *.apk) -F chat_id="-1001213452785" "https://api.telegram.org/bot$token/sendDocument"
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           token: ${{ secrets.TELEGRAM_CI_BOT_TOKEN }}
-          chat_id: ${{ secrets.TELEGRAM_CI_CHANNEL_ID }}
