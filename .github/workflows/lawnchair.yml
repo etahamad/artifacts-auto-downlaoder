@@ -13,7 +13,7 @@ jobs:
       - name: Cloning lawnchair repo 
         run: git clone --depth=1 https://github.com/LawnchairLauncher/lawnchair
       
-      - name: Dowloading latest debug apk
+      - name: Dowloading latest debug apk & sending it to telegram
         run: |
           cd lawnchair
           gh run download $(gh run list -L 1 > id1.txt && awk '{print $12}' id1.txt)
